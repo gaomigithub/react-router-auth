@@ -17,9 +17,6 @@ export default React.memo(function RouterGuard(props: PropsType) {
 
   const isLogin = sessionStorage.getItem('react-router-guard-test')
   console.log({ location, pathname: location?.pathname, isLogin })
-  // 如果该路由不用进行权限校验，登录状态下登陆页除外
-  // 因为登陆后，无法跳转到登陆页
-  // 这部分代码，是为了在非登陆状态下，访问不需要权限校验的路由
   const targetRouterConfig = routerConfig.find(
     (item) => item.path === location?.pathname
   )
@@ -45,7 +42,6 @@ export default React.memo(function RouterGuard(props: PropsType) {
           goTo(targetRouterConfig?.path)
         } else {
           // 如果路由不合法，重定向到 404 页面
-          console.log(404.1)
           goTo('/error')
         }
       }
@@ -59,7 +55,6 @@ export default React.memo(function RouterGuard(props: PropsType) {
           goTo(targetRouterConfig.path)
         }
       } else {
-        console.log(404.3)
         goTo('/error')
       }
     }
@@ -70,7 +65,6 @@ export default React.memo(function RouterGuard(props: PropsType) {
       {routerConfig.map((item, index) => {
         return <Route key={index} path={item.path} element={item.component} />
       })}
-      {/* <Route path={path} element={routeElement} /> */}
     </Routes>
   )
 })
