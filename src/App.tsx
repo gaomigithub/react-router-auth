@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import React, { Fragment } from 'react'
+import { Routes, useLocation } from 'react-router-dom'
+import RouterGuard from './RouterGuard'
+import { routerMap } from './routerMap'
 
+// BUG：这样的封装有问题，暂时无视APP.tsx
 function App() {
+  const location = useLocation()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Fragment>
+      {/*只匹配一个，匹配成功就不往下匹配，效率高*/}
+      <Routes location={location} key={location.pathname}>
+        <RouterGuard routerConfig={routerMap} />
+      </Routes>
+    </Fragment>
+  )
 }
 
-export default App;
+export default App
